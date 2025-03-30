@@ -24,7 +24,7 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static void Prefix(ref PlayerSearchControllerClass __instance, Item item)
         {
-            __instance.SetItemAsKnown(item, false);                     
+            __instance.SetItemAsKnown(item, true);                     
         }
 
 
