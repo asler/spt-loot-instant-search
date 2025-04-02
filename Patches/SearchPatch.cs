@@ -22,12 +22,33 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static void Prefix(ref PlayerSearchControllerClass __instance, Item item)
+        static void Prefix(ref PlayerSearchControllerClass __instance, ref Item item)
         {
-            __instance.SetItemAsKnown(item, true);                     
+            if(!__instance.hashSet_1.Contains(item))
+            {
+                __instance.SetItemAsKnown(item, true);                    
+            } 
+        }
+    }
+
+    //optimization for patch2
+    internal class SearchPatch6 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod() 
+        {   
+            
+            return AccessTools.Method(typeof(PlayerSearchControllerClass), nameof(PlayerSearchControllerClass.SetItemAsKnown));
         }
 
-
+        [PatchPrefix]
+        static bool Prefix(ref PlayerSearchControllerClass __instance, ref Item item)
+        {
+            if (__instance.hashSet_2.Contains(item))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
     internal class SearchPatch2 : ModulePatch 
@@ -38,12 +59,10 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static void Prefix(SearchableView __instance, IPlayerSearchController ___iplayerSearchController_0, SearchableItemItemClass ___searchableItemItemClass)
+        static void Prefix(SearchableView __instance, IPlayerSearchController ___iplayerSearchController_0, ref SearchableItemItemClass ___searchableItemItemClass)
         {
             ___iplayerSearchController_0.SetItemAsKnown(___searchableItemItemClass, false);
-            
         }
-
     }
 
     internal class SearchPatch3 : ModulePatch
@@ -56,10 +75,10 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static bool Prefix(SearchableView __instance)
         {
+            //autoclick dead body containers(backpack, pockets, etc)
             __instance.method_3();
             return false;
         }
-
     }
 
     internal class SearchPatch4 : ModulePatch  
@@ -88,9 +107,11 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static void Prefix(ref GClass2002 __instance, SearchableItemItemClass searchableItem)
         {
-            __instance.SetItemAsSearched(searchableItem);
+            if (!__instance.hashSet_0.Contains(searchableItem)) 
+            {
+                __instance.SetItemAsSearched(searchableItem);
+            }
         }
-
     }
 
     internal class AttentionPatch : ModulePatch
@@ -100,7 +121,6 @@ namespace LootInstantSearch.Patches
 
             return AccessTools.Method(typeof(SkillManager), nameof(SkillManager.method_2));
         }
-
 
         [PatchPostfix]
         static void Postfix(ref SkillManager __instance)
@@ -114,7 +134,5 @@ namespace LootInstantSearch.Patches
                 throw Plugin.ShowErrorNotif(ex);
             }
         }
-
     }
-
 }
