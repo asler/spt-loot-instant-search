@@ -29,7 +29,7 @@ namespace LootInstantSearch
             new SearchPatch3().Enable();
             new SearchPatch4().Enable();
             new SearchPatch5().Enable();
-            //new SearchPatch6().Enable();
+            new SearchPatch6().Enable();
             
         }
 

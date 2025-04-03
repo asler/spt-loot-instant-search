@@ -31,26 +31,6 @@ namespace LootInstantSearch.Patches
         }
     }
 
-    //optimization for patch2
-    internal class SearchPatch6 : ModulePatch
-    {
-        protected override MethodBase GetTargetMethod() 
-        {   
-            
-            return AccessTools.Method(typeof(PlayerSearchControllerClass), nameof(PlayerSearchControllerClass.SetItemAsKnown));
-        }
-
-        [PatchPrefix]
-        static bool Prefix(PlayerSearchControllerClass __instance, Item item)
-        {
-            if (__instance.hashSet_2.Contains(item))
-            {
-                return false;
-            }
-            return true;
-        }
-    }
-
     internal class SearchPatch2 : ModulePatch 
     {
         protected override MethodBase GetTargetMethod()
@@ -69,15 +49,15 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(SearchableView), nameof(SearchableView.Start));
+            return AccessTools.Method(typeof(SearchableView), nameof(SearchableView.Show));
         }
 
-        [PatchPrefix]
-        static bool Prefix(SearchableView __instance)
+        [PatchPostfix]
+        static void Postfix(SearchableView __instance, PlayerSearchControllerClass ___iplayerSearchController_0)
         {
-            //autoclick dead body containers(backpack, pockets, etc)
-            __instance.method_3();
-            return false;
+            if (___iplayerSearchController_0 != null){
+                __instance.method_3();
+            }
         }
     }
 
@@ -114,6 +94,35 @@ namespace LootInstantSearch.Patches
         }
     }
 
+    //optimization for patch2
+    internal class SearchPatch6 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+
+            return AccessTools.Method(typeof(PlayerSearchControllerClass), nameof(PlayerSearchControllerClass.SetItemAsKnown));
+        }
+
+        [PatchPrefix]
+        static bool Prefix(PlayerSearchControllerClass __instance, Item item)
+        {
+            /*if (__instance.hashSet_2.Contains(item))
+            {
+                return false;
+            }
+            __instance.hashSet_2.Add(item);
+            return true;*/
+
+            if (__instance.method_4(item))
+            {
+                GClass2001 gClass2001 = __instance as GClass2001;
+                gClass2001.method_1(item);
+            }
+
+            return false;
+        }
+    }
+
     internal class AttentionPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
@@ -123,7 +132,7 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPostfix]
-        static void Postfix(ref SkillManager __instance)
+        static void Postfix(SkillManager __instance)
         {
             __instance.AttentionEliteLuckySearch.Elite(0f).PerLevel(0f);
         }
