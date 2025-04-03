@@ -14,29 +14,28 @@ using System.Threading.Tasks;
 namespace LootInstantSearch.Patches
 {
     internal class SearchPatch : ModulePatch
-    {
+    { 
         protected override MethodBase GetTargetMethod()
         {   
-            
             return AccessTools.Method(typeof(PlayerSearchControllerClass), nameof(PlayerSearchControllerClass.IsItemKnown));
         }
 
         [PatchPrefix]
         static void Prefix(PlayerSearchControllerClass __instance, Item item)
         {
-            if(!__instance.hashSet_1.Contains(item))
-            {
-                __instance.SetItemAsKnown(item, true);                    
-            } 
+            //HashSet<Item> hashset_1 = AccessTools.Field(__instance.GetType(), "hashSet_1").GetValue(__instance) as HashSet<Item>;
+            //if (!hashset_1.Contains(item))
+            //{
+                __instance.SetItemAsKnown(item);                    
+            //} 
         }
     }
 
     //optimization for patch2
-    internal class SearchPatch6 : ModulePatch
+    /*internal class SearchPatch6 : ModulePatch
     {
         protected override MethodBase GetTargetMethod() 
         {   
-            
             return AccessTools.Method(typeof(PlayerSearchControllerClass), nameof(PlayerSearchControllerClass.SetItemAsKnown));
         }
 
@@ -49,7 +48,7 @@ namespace LootInstantSearch.Patches
             }
             return true;
         }
-    }
+    }*/
 
     internal class SearchPatch2 : ModulePatch 
     {
@@ -61,7 +60,7 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static void Prefix(SearchableView __instance, IPlayerSearchController ___iplayerSearchController_0, SearchableItemItemClass ___searchableItemItemClass)
         {
-            ___iplayerSearchController_0.SetItemAsKnown(___searchableItemItemClass, false);
+            ___iplayerSearchController_0.SetItemAsKnown(___searchableItemItemClass);
         }
     }
 
@@ -85,7 +84,7 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass2002), nameof(GClass2002.ContainsUnknownItems));
+            return AccessTools.Method(typeof(GClass1966), nameof(GClass1966.ContainsUnknownItems));
         }
 
         [PatchPrefix]
@@ -101,16 +100,16 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass2002), nameof(GClass2002.SearchContents));
+            return AccessTools.Method(typeof(GClass1966), nameof(GClass1966.SearchContents));
         }
 
         [PatchPrefix]
-        static void Prefix(GClass2002 __instance, SearchableItemItemClass searchableItem)
+        static void Prefix(GClass1966 __instance, SearchableItemItemClass searchableItem)
         {
-            if (!__instance.hashSet_0.Contains(searchableItem)) 
-            {
+            //if (!__instance.hashSet_0.Contains(searchableItem)) 
+            //{
                 __instance.SetItemAsSearched(searchableItem);
-            }
+            //}
         }
     }
 
@@ -118,7 +117,6 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-
             return AccessTools.Method(typeof(SkillManager), nameof(SkillManager.method_2));
         }
 
