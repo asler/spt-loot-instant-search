@@ -22,7 +22,7 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static void Prefix(ref PlayerSearchControllerClass __instance, ref Item item)
+        static void Prefix(PlayerSearchControllerClass __instance, Item item)
         {
             if(!__instance.hashSet_1.Contains(item))
             {
@@ -41,7 +41,7 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static bool Prefix(ref PlayerSearchControllerClass __instance, ref Item item)
+        static bool Prefix(PlayerSearchControllerClass __instance, Item item)
         {
             if (__instance.hashSet_2.Contains(item))
             {
@@ -59,7 +59,7 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static void Prefix(SearchableView __instance, IPlayerSearchController ___iplayerSearchController_0, ref SearchableItemItemClass ___searchableItemItemClass)
+        static void Prefix(SearchableView __instance, IPlayerSearchController ___iplayerSearchController_0, SearchableItemItemClass ___searchableItemItemClass)
         {
             ___iplayerSearchController_0.SetItemAsKnown(___searchableItemItemClass, false);
         }
@@ -105,7 +105,7 @@ namespace LootInstantSearch.Patches
         }
 
         [PatchPrefix]
-        static void Prefix(ref GClass2002 __instance, SearchableItemItemClass searchableItem)
+        static void Prefix(GClass2002 __instance, SearchableItemItemClass searchableItem)
         {
             if (!__instance.hashSet_0.Contains(searchableItem)) 
             {
@@ -125,14 +125,7 @@ namespace LootInstantSearch.Patches
         [PatchPostfix]
         static void Postfix(ref SkillManager __instance)
         {
-            try
-            {
-                __instance.AttentionEliteLuckySearch.Elite(0f).PerLevel(0f);
-            }
-            catch (Exception ex)
-            {
-                throw Plugin.ShowErrorNotif(ex);
-            }
+            __instance.AttentionEliteLuckySearch.Elite(0f).PerLevel(0f);
         }
     }
 }
