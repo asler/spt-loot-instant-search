@@ -24,6 +24,8 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static void Prefix(PlayerSearchControllerClass __instance, Item item)
         {
+            if (__instance == null || __instance.hashSet_1 == null) return;
+
             if(!__instance.hashSet_1.Contains(item))
             {
                 __instance.SetItemAsKnown(item, true);                    
@@ -55,7 +57,7 @@ namespace LootInstantSearch.Patches
         [PatchPostfix]
         static void Postfix(SearchableView __instance, PlayerSearchControllerClass ___iplayerSearchController_0)
         {
-            if (___iplayerSearchController_0 != null){
+            if (__instance != null && ___iplayerSearchController_0 != null){
                 __instance.method_3();
             }
         }
