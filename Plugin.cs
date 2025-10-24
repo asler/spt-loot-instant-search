@@ -10,7 +10,7 @@ using LootInstantSearch.Patches;
 namespace LootInstantSearch
 {
     // first string below is your plugin's GUID, it MUST be unique to any other mod. Read more about it in BepInEx docs. Be sure to update it if you copy this project.
-    [BepInPlugin("wizard.LootInstantSearch", "LootInstantSearch", "1.0.3")]
+    [BepInPlugin("wizard.LootInstantSearch", "LootInstantSearch", "1.1.0")]
     public class Plugin : BaseUnityPlugin
     {
         public static ManualLogSource LogSource;
