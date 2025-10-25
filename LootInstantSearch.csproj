@@ -38,14 +38,15 @@
     <Reference Include="0Harmony">
       <HintPath>J:\SPT 3.11\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>J:\SPT 4.0\BepInEx\DumpedAssemblies\EscapeFromTarkov\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="spt-common">
       <HintPath>J:\SPT 3.11\BepInEx\plugins\spt\spt-common.dll</HintPath>
     </Reference>
     <Reference Include="spt-reflection">
       <HintPath>J:\SPT 3.11\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>J:\SPT 3.11\BepInEx\core\BepInEx.dll</HintPath>
@@ -113,6 +114,26 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "J:\SPT 3.11\BepInEx\plugins\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll"
+
+copy "$(TargetPath)" "J:\SPT 4.0\BepInEx\plugins\$(TargetName).dll"
+
+
+
+if "$(ConfigurationName)" == "Debug" (
+    
+    copy "$(TargetDir)$(TargetName).pdb" "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
+
+) else (
+    
+    del "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
+
+)
+
+
+
+if "$(ConfigurationName)" == "Release" (
+    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "F:\SPT-AKI-DEV\BepInEx\plugins"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -24,9 +24,9 @@ namespace LootInstantSearch.Patches
         [PatchPrefix]
         static void Prefix(PlayerSearchControllerClass __instance, Item item)
         {
-            if (__instance == null || __instance.hashSet_1 == null) return;
+            if (__instance == null || __instance.HashSet_1 == null) return;
 
-            if(!__instance.hashSet_1.Contains(item))
+            if(!__instance.HashSet_1.Contains(item))
             {
                 __instance.SetItemAsKnown(item, true);                    
             } 
@@ -67,7 +67,7 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass2002), nameof(GClass2002.ContainsUnknownItems));
+            return AccessTools.Method(typeof(GClass2235), nameof(GClass2235.ContainsUnknownItems));
         }
 
         [PatchPrefix]
@@ -83,13 +83,13 @@ namespace LootInstantSearch.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass2002), nameof(GClass2002.SearchContents));
+            return AccessTools.Method(typeof(GClass2235), nameof(GClass2235.SearchContents));
         }
 
         [PatchPrefix]
-        static void Prefix(GClass2002 __instance, SearchableItemItemClass searchableItem)
+        static void Prefix(GClass2235 __instance, SearchableItemItemClass searchableItem)
         {
-            if (!__instance.hashSet_0.Contains(searchableItem)) 
+            if (!__instance.HashSet_0.Contains(searchableItem)) 
             {
                 __instance.SetItemAsSearched(searchableItem);
             }
@@ -117,8 +117,8 @@ namespace LootInstantSearch.Patches
 
             if (__instance.method_4(item))
             {
-                GClass2001 gClass2001 = __instance as GClass2001;
-                gClass2001.method_1(item);
+                GClass2234 gClass2234 = __instance as GClass2234;
+                gClass2234.method_1(item);
             }
 
             return false;
